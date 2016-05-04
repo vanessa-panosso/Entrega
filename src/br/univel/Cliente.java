@@ -1,8 +1,8 @@
 package br.univel;
 
-@Tabela ("Cadastro_Cliente")
+@Tabela ("CADASTRO_CLIENTE")
 public class Cliente {
-	@Coluna(pk=true)
+	@Coluna(nome="CADID",pk=true)
 	private int Cadid;
 
 	@Coluna(nome="CadNome", tamanho=100)
