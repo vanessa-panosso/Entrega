@@ -9,23 +9,26 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Sqlimpl extends SqlGen {
-		
+	private Connection con;
 	public Sqlimpl () {
 	
 	}
 	
 		public Connection abrirconexcao(){
 			try {
-
-				String url = "jdbc:h2:./banco";
+				Class.forName("org.h2.Driver");
+				String url = "jdbc:h2:~/banco";
 				String user = "sa";
 				String pass = "sa";
-				Connection con = DriverManager.getConnection(url, user, pass);
+				con = DriverManager.getConnection(url, user, pass);
 				return con;
 			} catch (SQLException e) {
 				e.printStackTrace();
 				return null;
 
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+				return null;
 			}
 			
 			
@@ -34,7 +37,7 @@ public class Sqlimpl extends SqlGen {
 		
 
 	@Override
-	protected String getCreateTable(Object obj) {
+	protected String getCreateTable(Object obj) throws SQLException {
 		Class<? extends Object> cl = obj.getClass();
 		try {
 
@@ -136,6 +139,7 @@ public class Sqlimpl extends SqlGen {
 			}
 
 			sb.append("\n);");
+			System.out.println(sb.toString());
 			return sb.toString();
 
 		} catch (SecurityException e) {
@@ -164,9 +168,8 @@ public class Sqlimpl extends SqlGen {
 
 				}
 				sb.append("DROP TABLE ").append(nomeTabela).append(";");
-			
+			System.out.println(sb.toString());
 			return sb.toString();
-
 	} catch (SecurityException e) {
 		throw new RuntimeException(e);
 	}
@@ -240,6 +243,7 @@ public class Sqlimpl extends SqlGen {
 			PreparedStatement ps = con.prepareStatement(strSql);
 
 			for (int i = 0; i < atributos.length; i++) {
+				
 				Field field = atributos[i];
 
 				field.setAccessible(true);
@@ -250,8 +254,11 @@ public class Sqlimpl extends SqlGen {
 				} else if (field.getType().equals(String.class)) {
 					ps.setString(i + 1, String.valueOf(field.get(obj)));
 
-				} else if (field.getType().equals(Estado_Civil.class)) {
-					ps.setString(i + 1, String.valueOf(field.get(obj)));
+                } else if (field.getType().isEnum()) {
+                    Object valor = field.get(obj);
+                    Method m = valor.getClass().getMethod("ordinal");
+                    ps.setInt(i + 1, (Integer) m.invoke(valor, null));
+                }
 				} else {
 					throw new RuntimeException("Tipo não suportado, falta implementar.");
 
@@ -302,7 +309,7 @@ public class Sqlimpl extends SqlGen {
 		PreparedStatement ps = null;
 		try {
 			ps = con.prepareStatement(strSql);
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
@@ -368,7 +375,8 @@ public class Sqlimpl extends SqlGen {
 			PreparedStatement ps = null;
 			try {
 				ps = con.prepareStatement(strSql);
-				
+				int res = ps.executeUpdate();
+
 			} catch (SQLException e) {
 				e.printStackTrace();
 			} catch (IllegalArgumentException e) {
@@ -424,6 +432,7 @@ public class Sqlimpl extends SqlGen {
 
         try {
             ps = con.prepareStatement(update);
+    		int res = ps.executeUpdate();
 
             for (int i = 0; i < atributos.length; i++) {
                 Field field = atributos[i];
@@ -474,6 +483,8 @@ public class Sqlimpl extends SqlGen {
             System.out.println(exc);
 
             ps = con.prepareStatement(exc);
+    		int res = ps.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
