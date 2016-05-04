@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Daoimpl implements Dao<Cliente, Integer> {
@@ -12,17 +12,15 @@ public class Daoimpl implements Dao<Cliente, Integer> {
     private ResultSet resultado;
     private Sqlimpl ex = new Sqlimpl();
     private Connection con = ex.abrirconexcao();
-
     private List<Cliente> lista;
 	@Override
-	
 	public void salvar(Cliente c) {
          try {
         	ps = ex.getSqlInsert(con, c);
 			ps.executeUpdate();
 			ps.close();
 	        con.close();
-	        System.out.println("Cliente cadastrado com sucesso!");
+	        System.out.println("Cadastro Salvo!\n");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -38,9 +36,9 @@ public class Daoimpl implements Dao<Cliente, Integer> {
 	            resultado = ps.executeQuery();
 	            resultado.next();
 
-	            Estado_Civil estcivil = Estado_Civil.values()[resultado.getInt("ESTADOCIVIL")];
-	            c = new Cliente(resultado.getInt("id"), resultado.getString("nome"),
-	            		resultado.getString("endereco"), resultado.getString("telefone"), estcivil);
+	            Estado_Civil estcivil = Estado_Civil.values()[resultado.getInt("CadEstadoCivil")];
+	            c = (new Cliente(resultado.getInt("Cadid"), resultado.getString("CadNome"),
+                        resultado.getString("CadEnd"), resultado.getString("CadTelefone"), estcivil));
 
 	            ps.close();
 	            resultado.close();
@@ -60,7 +58,7 @@ public class Daoimpl implements Dao<Cliente, Integer> {
             ps.executeUpdate();
             ps.close();
             con.close();
-            System.out.println("Cliente atualizado!");
+            System.out.println("\nCadastro atualizado!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -74,7 +72,7 @@ public class Daoimpl implements Dao<Cliente, Integer> {
             ps.executeUpdate();
             ps.close();
             con.close();
-            System.out.println("Cliente excluido com sucesso!");
+            System.out.println("\nCadastro excluido!");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -84,7 +82,7 @@ public class Daoimpl implements Dao<Cliente, Integer> {
     public List<Cliente> listarTodos() {
 	        try {
 	            Cliente cl = new Cliente();
-	            lista = new ArrayList<Cliente>();
+	            lista = new LinkedList<Cliente>();
 	            ps = ex.getSqlSelectAll(con, cl);
 	            resultado = ps.executeQuery();
 

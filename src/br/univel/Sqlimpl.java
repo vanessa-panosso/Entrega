@@ -139,7 +139,6 @@ public class Sqlimpl extends SqlGen {
 			}
 
 			sb.append("\n);");
-			System.out.println(sb.toString());
 			return sb.toString();
 
 		} catch (SecurityException e) {
@@ -168,7 +167,6 @@ public class Sqlimpl extends SqlGen {
 
 				}
 				sb.append("DROP TABLE ").append(nomeTabela).append(";");
-			System.out.println(sb.toString());
 			return sb.toString();
 	} catch (SecurityException e) {
 		throw new RuntimeException(e);
@@ -385,7 +383,6 @@ public class Sqlimpl extends SqlGen {
 			PreparedStatement ps = null;
 			try {
 				ps = con.prepareStatement(strSql);
-				int res = ps.executeUpdate();
 
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -434,15 +431,13 @@ public class Sqlimpl extends SqlGen {
 
             sb.append(nomecoluna).append(" = ?");
         }
-        sb.append(" WHERE ID = ").append(id);
-        String update = sb.toString();
-        System.out.println(update);
+        sb.append(" WHERE CADID = ").append(id);
+        String atual = sb.toString();
 
         PreparedStatement ps = null;
 
         try {
-            ps = con.prepareStatement(update);
-    		int res = ps.executeUpdate();
+            ps = con.prepareStatement(atual);
 
             for (int i = 0; i < atributos.length; i++) {
                 Field field = atributos[i];
@@ -488,9 +483,8 @@ public class Sqlimpl extends SqlGen {
                 nometabela = cl.getSimpleName().toUpperCase();
             }
 
-            sb.append("DELETE FROM ").append(nometabela).append(" WHERE ID = ").append(id).append(";");
+            sb.append("DELETE FROM ").append(nometabela).append(" WHERE CADID = ").append(id).append(";");
             String exc = sb.toString();
-            System.out.println(exc);
 
             ps = con.prepareStatement(exc);
     		int res = ps.executeUpdate();

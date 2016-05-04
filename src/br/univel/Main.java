@@ -56,7 +56,7 @@ public class Main {
     public void busca(Integer id) {
         Daoimpl dao = new Daoimpl();
         Cliente cl = dao.buscar(id);
-
+        System.out.println("\n Resultado Pesquisa:");
         System.out.println("ID: \t\t\t" + cl.getId());
         System.out.println("NOME: \t\t\t" + cl.getNomeCliente());
         System.out.println("ENDERECO: \t\t" + cl.getEnd());
@@ -75,13 +75,14 @@ public class Main {
         Daoimpl dao = new Daoimpl();
         List<Cliente> list = dao.listarTodos();
 
-        System.out.println("LISTAR TODOS\n");
+        System.out.println("\nLISTA TODOS DOS REGISTROS\n");
         for (Cliente l: list) {
             System.out.println("ID: \t\t" + l.getId());
             System.out.println("NOME: \t\t" + l.getNomeCliente());
             System.out.println("ENDERECO: \t" + l.getEnd());
             System.out.println("TELEFONE: \t" + l.getTelefone());
-            System.out.println("ESTADO CIVIL: \t\n" + l.getEstadocivil());
+            System.out.println("ESTADO CIVIL: \t" + l.getEstadocivil());
+            System.out.println("---------------------------------------------\n");
         }
     }
 
