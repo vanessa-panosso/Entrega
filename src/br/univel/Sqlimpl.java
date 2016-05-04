@@ -258,16 +258,15 @@ public class Sqlimpl extends SqlGen {
                     Object valor = field.get(obj);
                     Method m = valor.getClass().getMethod("ordinal");
                     ps.setInt(i + 1, (Integer) m.invoke(valor, null));
-                }
-				} else {
+				                
+					} else {
 					throw new RuntimeException("Tipo não suportado, falta implementar.");
 
 				}
 			}
 			return ps;
 
-
-		} catch (SQLException e) {
+		}catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 
@@ -276,6 +275,17 @@ public class Sqlimpl extends SqlGen {
 			return null;
 
 		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			return null;
+
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+			return null;
+		} catch (SecurityException e) {
+			e.printStackTrace();
+			return null;
+
+		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 			return null;
 
