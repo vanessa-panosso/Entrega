@@ -62,11 +62,13 @@ public class Main {
         System.out.println("ENDERECO: \t\t" + cl.getEnd());
         System.out.println("TELEFONE: \t\t" + cl.getTelefone());
         System.out.println("ESTADO CIVIL: \t" + cl.getEstadocivil());
+        System.out.println("------------------------------------------------");
+
         System.out.println();
     }
     public void exclui(Integer id) {
         Daoimpl dao = new Daoimpl();
-        dao.excluir(1);
+        dao.excluir(id);
     }
 
     
@@ -75,15 +77,17 @@ public class Main {
         Daoimpl dao = new Daoimpl();
         List<Cliente> list = dao.listarTodos();
 
-        System.out.println("\nLISTA TODOS DOS REGISTROS\n");
+        System.out.println("\nLISTA DE TODOS DOS REGISTROS\n");
         for (Cliente l: list) {
             System.out.println("ID: \t\t" + l.getId());
             System.out.println("NOME: \t\t" + l.getNomeCliente());
             System.out.println("ENDERECO: \t" + l.getEnd());
             System.out.println("TELEFONE: \t" + l.getTelefone());
             System.out.println("ESTADO CIVIL: \t" + l.getEstadocivil());
-            System.out.println("---------------------------------------------\n");
+            System.out.println();
         }
+        System.out.println("------------------------------------------------");
+
     }
 
     public static void main(String[] args) {

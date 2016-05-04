@@ -20,7 +20,14 @@ public class Daoimpl implements Dao<Cliente, Integer> {
 			ps.executeUpdate();
 			ps.close();
 	        con.close();
+	        System.out.println("ID: \t\t\t" + c.getId());
+	        System.out.println("NOME: \t\t\t" + c.getNomeCliente());
+	        System.out.println("ENDERECO: \t\t" + c.getEnd());
+	        System.out.println("TELEFONE: \t\t" + c.getTelefone());
+	        System.out.println("ESTADO CIVIL: \t\t" + c.getEstadocivil());
+	        System.out.println();
 	        System.out.println("Cadastro Salvo!\n");
+	        System.out.println("------------------------------------------------");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -58,7 +65,13 @@ public class Daoimpl implements Dao<Cliente, Integer> {
             ps.executeUpdate();
             ps.close();
             con.close();
+            System.out.println("ID: \t\t\t" + c.getId());
+	        System.out.println("NOME: \t\t\t" + c.getNomeCliente());
+	        System.out.println("ENDERECO: \t\t" + c.getEnd());
+	        System.out.println("TELEFONE: \t\t" + c.getTelefone());
+	        System.out.println("ESTADO CIVIL: \t\t" + c.getEstadocivil());
             System.out.println("\nCadastro atualizado!");
+	        System.out.println("------------------------------------------------");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -73,6 +86,8 @@ public class Daoimpl implements Dao<Cliente, Integer> {
             ps.close();
             con.close();
             System.out.println("\nCadastro excluido!");
+	        System.out.println("------------------------------------------------");
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

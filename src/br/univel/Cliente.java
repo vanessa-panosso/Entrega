@@ -5,7 +5,7 @@ public class Cliente {
 	@Coluna(nome="CADID",pk=true)
 	private int Cadid;
 
-	@Coluna(nome="CadNome", tamanho=100)
+	@Coluna(nome="CadNome", tamanho=50)
 	private String nomeCliente;
 	
 	@Coluna(nome="CadEnd", tamanho=80)
